@@ -1,11 +1,9 @@
-
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { getData } from '../Redux/Actions/drinkAction'
 import { Link } from 'react-router-dom'
 import { createDrink } from '../service'
 import Select from 'react-select'
-
+import {actions} from '../Redux/Actions/action'
 
 function mapStateToProps(state) {
     return {
@@ -13,19 +11,20 @@ function mapStateToProps(state) {
         user: state.user.user
     };
 }
+const mapDispatchToProps = (dispatch) => ({
+    
+    getData: () => dispatch(actions.getAllDrinks()),
+    
+})
+export default connect(mapStateToProps, mapDispatchToProps)(function Drinks(props) {
 
-export default connect(mapStateToProps)(function Drinks(props) {
-
-    const { drinks, user, dispatch } = props
+    const { drinks, user, getData } = props
     const [selectedOption, setSelectedOption] = useState();
-    const owner = user._id
-
 
     useEffect(() => {
-        dispatch(getData())
-    }, [])
+          getData('')
+    },)
 
-    // handle onChange event of the dropdown
     function handleChange(e) {
         setSelectedOption(e);
         createDrink({ label: e.label, value: e.value, image: e.image, owner: user._id })
@@ -47,11 +46,6 @@ export default connect(mapStateToProps)(function Drinks(props) {
               
 
                 </div>
-                       
-                       
-
-                
-
                 <Select
                     placeholder="Select Option"
                     value={selectedOption} // set selected value
@@ -60,7 +54,7 @@ export default connect(mapStateToProps)(function Drinks(props) {
 
                 {selectedOption && <div style={{ marginTop: 20, lineHeight: '25px' }} >
                     <b>Selected Option:</b><br />
-                    <div><img src={selectedOption.image} style={{ height: "300px", width: "300px" }}></img> </div>
+                    <div><img src={selectedOption.image} alt="drink page" style={{ height: "300px", width: "300px" }}></img> </div>
                     <div style={{ marginTop: 10 }}>{selectedOption.label}</div></div>}
 
                 <div className="row">
@@ -74,11 +68,12 @@ export default connect(mapStateToProps)(function Drinks(props) {
 class Item extends React.Component {
     constructor(props) {
         super(props);
-    } render() {
+    }
+    render() {
         return (
             <>
                 <div className="card" style={{ width: "190px" }}>
-                    <img src={this.props.image} style={{ height: "150px", width: "150px" }}></img>
+                    <img src={this.props.image} alt="drink page" style={{ height: "150px", width: "150px" }}></img>
                     <p >{this.props.label} </p>
                 </div>
 

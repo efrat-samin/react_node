@@ -7,7 +7,6 @@ const initialState = {
 
 const drinksReducer = {
     setALLDrinks(state, action) {
-      //  debugger
       let temp=action.payload.drinks
             let d=[];
                for(let i=0; i<temp.length;i++){

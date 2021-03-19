@@ -3,8 +3,6 @@ function convertActionTypeToName(actionType) {
 }
   
 export default function createReducer(state, action, handlers) {
-    //debugger
-    
     const key = convertActionTypeToName(action.type);
     const handler = handlers[key];
     if (handler) {
